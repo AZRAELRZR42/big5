@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#6366f1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Big 5 Test</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  :root {
+    --bg: #0f172a; --card: #1e293b; --text: #f1f5f9; --muted: #94a3b8;
+    --accent: #6366f1; --accent-2: #8b5cf6; --border: #334155;
+    --O: #8b5cf6; --C: #3b82f6; --E: #f59e0b; --A: #10b981; --N: #ef4444;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg); color: var(--text); min-height: 100vh; min-height: 100dvh;
+    display: flex; flex-direction: column; overflow-x: hidden;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+  .container { flex: 1; display: flex; flex-direction: column; padding: 20px; max-width: 600px; margin: 0 auto; width: 100%; }
+  .screen { display: none; flex-direction: column; flex: 1; }
+  .screen.active { display: flex; }
+  .welcome { align-items: center; justify-content: center; text-align: center; gap: 24px; padding: 40px 20px; }
+  .logo {
+    width: 96px; height: 96px; background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    border-radius: 24px; display: flex; align-items: center; justify-content: center;
+    font-size: 48px; font-weight: 800; color: white; box-shadow: 0 12px 40px rgba(99,102,241,0.4);
+  }
+  h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; }
+  .subtitle { color: var(--muted); font-size: 15px; line-height: 1.5; max-width: 320px; }
+  .info-box { background: var(--card); border-radius: 16px; padding: 16px; font-size: 14px; color: var(--muted); line-height: 1.5; text-align: left; width: 100%; }
+  .btn {
+    padding: 16px 24px; background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    color: white; border: none; border-radius: 14px; font-size: 16px; font-weight: 600;
+    cursor: pointer; width: 100%; transition: transform 0.15s; font-family: inherit;
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn.secondary { background: transparent; border: 1px solid var(--border); color: var(--text); }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .quiz-header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+  .progress-bar { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); transition: width 0.3s ease; border-radius: 3px; width: 0; }
+  .progress-text { font-size: 13px; color: var(--muted); font-weight: 500; min-width: 45px; text-align: right; }
+  .question-number { font-size: 13px; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
+  .question { font-size: 22px; font-weight: 600; line-height: 1.35; margin-bottom: 32px; min-height: 90px; }
+  .options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+  .option {
+    padding: 16px 18px; background: var(--card); border: 2px solid transparent; border-radius: 14px;
+    font-size: 15px; cursor: pointer; display: flex; align-items: center; gap: 14px;
+    transition: all 0.15s; font-family: inherit; color: var(--text); text-align: left; width: 100%;
+  }
+  .option:active { transform: scale(0.98); }
+  .option.selected { background: rgba(99, 102, 241, 0.15); border-color: var(--accent); }
+  .option-circle {
+    width: 24px; height: 24px; border: 2px solid var(--border); border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; transition: all 0.15s;
+    font-size: 12px; font-weight: 700; color: var(--muted);
+  }
+  .option.selected .option-circle { background: var(--accent); border-color: var(--accent); color: white; }
+  .nav-buttons { display: flex; gap: 10px; margin-top: auto; }
+  .nav-buttons .btn { flex: 1; }
+  .results { gap: 20px; padding-bottom: 20px; overflow-y: auto; }
+  .results-header { text-align: center; margin-bottom: 8px; }
+  .results-header h1 { font-size: 26px; }
+  .results-header p { color: var(--muted); font-size: 14px; margin-top: 6px; }
+  .trait-card { background: var(--card); border-radius: 16px; padding: 16px; border-left: 4px solid; }
+  .trait-card.O { border-color: var(--O); } .trait-card.C { border-color: var(--C); }
+  .trait-card.E { border-color: var(--E); } .trait-card.A { border-color: var(--A); }
+  .trait-card.N { border-color: var(--N); }
+  .trait-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+  .trait-name { font-size: 16px; font-weight: 600; }
+  .trait-score { font-size: 18px; font-weight: 700; }
+  .trait-bar { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; margin-bottom: 10px; }
+  .trait-bar-fill { height: 100%; border-radius: 4px; width: 0; transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+  .trait-card.O .trait-bar-fill { background: var(--O); } .trait-card.C .trait-bar-fill { background: var(--C); }
+  .trait-card.E .trait-bar-fill { background: var(--E); } .trait-card.A .trait-bar-fill { background: var(--A); }
+  .trait-card.N .trait-bar-fill { background: var(--N); }
+  .trait-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
+</style>
+</head>
+<body>
+<div class="container">
+  <section id="screen-welcome" class="screen active welcome">
+    <div class="logo">5</div>
+    <div>
+      <h1>Test de Personalidad</h1>
+      <p class="subtitle">Descubre tu perfil en los 5 grandes rasgos</p>
+    </div>
+    <div class="info-box">
+      <strong style="color: var(--text); display: block; margin-bottom: 6px;">Cómo funciona</strong>
+      20 preguntas · 5 minutos · Sin registro<br>
+      Responde con honestidad. No hay respuestas correctas o incorrectas.
+    </div>
+    <button class="btn" onclick="startQuiz()">Comenzar test</button>
+    <button class="btn secondary" onclick="showLastResult()" id="btn-history" style="display:none;">Ver mi último resultado</button>
+  </section>
+
+  <section id="screen-quiz" class="screen">
+    <div class="quiz-header">
+      <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+      <div class="progress-text" id="progress-text">1/20</div>
+    </div>
+    <div class="question-number" id="q-number">Pregunta 1</div>
+    <div class="question" id="q-text"></div>
+    <div class="options" id="options"></div>
+    <div class="nav-buttons">
+      <button class="btn secondary" id="btn-prev" onclick="prevQuestion()" disabled>Anterior</button>
+      <button class="btn" id="btn-next" onclick="nextQuestion()" disabled>Siguiente</button>
+    </div>
+  </section>
+
+  <section id="screen-results" class="screen results">
+    <div class="results-header">
+      <h1>Tu perfil</h1>
+      <p id="result-date"></p>
+    </div>
+    <div id="traits-container"></div>
+    <button class="btn" onclick="restart()">Repetir test</button>
+  </section>
+</div>
+
+<script>
+const QUESTIONS = [
+  { q: "Soy el alma de la fiesta", t: "E", r: false },
+  { q: "No hablo mucho", t: "E", r: true },
+  { q: "Hablo con muchas personas diferentes en las fiestas", t: "E", r: false },
+  { q: "Me mantengo en segundo plano", t: "E", r: true },
+  { q: "Simpatizo con los sentimientos de los demás", t: "A", r: false },
+  { q: "No me interesan los problemas de los demás", t: "A", r: true },
+  { q: "Tengo un corazón blando", t: "A", r: false },
+  { q: "Realmente no me interesan los demás", t: "A", r: true },
+  { q: "Siempre estoy preparado", t: "C", r: false },
+  { q: "Dejo mis cosas por ahí", t: "C", r: true },
+  { q: "Presto atención a los detalles", t: "C", r: false },
+  { q: "Hago un desastre de las cosas", t: "C", r: true },
+  { q: "Me estreso fácilmente", t: "N", r: false },
+  { q: "Estoy relajado la mayor parte del tiempo", t: "N", r: true },
+  { q: "Me preocupo por las cosas", t: "N", r: false },
+  { q: "Rara vez me siento triste", t: "N", r: true },
+  { q: "Tengo un vocabulario rico", t: "O", r: false },
+  { q: "Tengo dificultad entendiendo ideas abstractas", t: "O", r: true },
+  { q: "Tengo una imaginación vívida", t: "O", r: false },
+  { q: "No me interesan las ideas abstractas", t: "O", r: true }
+];
+
+const TRAITS = {
+  O: { name: "Apertura", desc: "Imaginación, curiosidad, apertura a nuevas ideas y experiencias." },
+  C: { name: "Responsabilidad", desc: "Organización, disciplina, orientación a metas y cumplimiento." },
+  E: { name: "Extraversión", desc: "Sociabilidad, energía, asertividad y búsqueda de estimulación." },
+  A: { name: "Amabilidad", desc: "Cooperación, empatía, confianza y consideración hacia otros." },
+  N: { name: "Neuroticismo", desc: "Tendencia a experimentar emociones negativas como ansiedad e irritabilidad." }
+};
+
+const SCALE = [
+  { val: 1, label: "Muy en desacuerdo" },
+  { val: 2, label: "En desacuerdo" },
+  { val: 3, label: "Neutral" },
+  { val: 4, label: "De acuerdo" },
+  { val: 5, label: "Muy de acuerdo" }
+];
+
+let current = 0;
+let answers = [];
+
+function $(id) { return document.getElementById(id); }
+function show(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  $(id).classList.add('active');
+}
+
+function startQuiz() {
+  current = 0;
+  answers = new Array(QUESTIONS.length).fill(null);
+  show('screen-quiz');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = QUESTIONS[current];
+  $('q-number').textContent = "Pregunta " + (current + 1);
+  $('q-text').textContent = q.q;
+  $('progress').style.width = ((current + 1) / QUESTIONS.length * 100) + "%";
+  $('progress-text').textContent = (current + 1) + "/" + QUESTIONS.length;
+
+  const opts = $('options');
+  opts.innerHTML = '';
+  SCALE.forEach(s => {
+    const btn = document.createElement('button');
+    btn.className = 'option' + (answers[current] === s.val ? ' selected' : '');
+    btn.innerHTML = '<span class="option-circle">' + s.val + '</span><span>' + s.label + '</span>';
+    btn.onclick = () => selectOption(s.val);
+    opts.appendChild(btn);
+  });
+
+  $('btn-prev').disabled = current === 0;
+  $('btn-next').disabled = answers[current] === null;
+  $('btn-next').textContent = current === QUESTIONS.length - 1 ? 'Ver resultados' : 'Siguiente';
+}
+
+function selectOption(val) {
+  answers[current] = val;
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.classList.toggle('selected', SCALE[i].val === val);
+  });
+  $('btn-next').disabled = false;
+}
+
+function prevQuestion() { if (current > 0) { current--; renderQuestion(); } }
+
+function nextQuestion() {
+  if (answers[current] === null) return;
+  if (current === QUESTIONS.length - 1) finishQuiz();
+  else { current++; renderQuestion(); }
+}
+
+function finishQuiz() {
+  const scores = { O: 0, C: 0, E: 0, A: 0, N: 0 };
+  QUESTIONS.forEach((q, i) => {
+    const v = q.r ? (6 - answers[i]) : answers[i];
+    scores[q.t] += v;
+  });
+  Object.keys(scores).forEach(k => {
+    scores[k] = Math.round(((scores[k] - 4) / 16) * 100);
+  });
+  const result = { scores, date: new Date().toISOString() };
+  try { localStorage.setItem('big5_last', JSON.stringify(result)); } catch(e) {}
+  renderResults(result);
+}
+
+function renderResults(result) {
+  $('result-date').textContent = new Date(result.date).toLocaleDateString('es-MX', {
+    day: 'numeric', month: 'long', year: 'numeric'
+  });
+  const container = $('traits-container');
+  container.innerHTML = '';
+  ['O', 'C', 'E', 'A', 'N'].forEach(k => {
+    const trait = TRAITS[k];
+    const score = result.scores[k];
+    const card = document.createElement('div');
+    card.className = 'trait-card ' + k;
+    card.innerHTML =
+      '<div class="trait-header"><div class="trait-name">' + trait.name + '</div>' +
+      '<div class="trait-score">' + score + '</div></div>' +
+      '<div class="trait-bar"><div class="trait-bar-fill" data-score="' + score + '"></div></div>' +
+      '<div class="trait-desc">' + trait.desc + '</div>';
+    container.appendChild(card);
+  });
+  show('screen-results');
+  setTimeout(() => {
+    document.querySelectorAll('.trait-bar-fill').forEach(bar => {
+      bar.style.width = bar.dataset.score + '%';
+    });
+  }, 50);
+}
+
+function showLastResult() {
+  try {
+    const raw = localStorage.getItem('big5_last');
+    if (raw) renderResults(JSON.parse(raw));
+  } catch(e) {}
+}
+
+function restart() { show('screen-welcome'); checkHistory(); }
+
+function checkHistory() {
+  try {
+    if (localStorage.getItem('big5_last')) $('btn-history').style.display = 'block';
+  } catch(e) {}
+}
+
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+checkHistory();
+</script>
+</body>
+</html>
