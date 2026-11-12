@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#6366f1">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="mobile-web-app-capable" content="yes">
 <title>Big 5 Test</title>
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon-192.png">
@@ -22,17 +21,16 @@
     display: flex; flex-direction: column; overflow-x: hidden;
     padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
   }
-  .container { flex: 1; display: flex; flex-direction: column; padding: 20px; max-width: 600px; margin: 0 auto; width: 100%; }
+  .container { flex: 1; display: flex; flex-direction: column; padding: 20px; max-width: 600px; margin: 0 auto; width: 100%; overflow-y: auto; }
   .screen { display: none; flex-direction: column; flex: 1; }
   .screen.active { display: flex; }
   
-  /* Pantalla de bienvenida */
-  .welcome { align-items: center; justify-content: center; text-align: center; gap: 20px; padding: 20px; }
+  /* Bienvenida */
+  .welcome { align-items: center; justify-content: center; text-align: center; gap: 16px; padding: 20px 0; }
   .logo {
     width: 80px; height: 80px; background: linear-gradient(135deg, var(--accent), var(--accent-2));
     border-radius: 20px; display: flex; align-items: center; justify-content: center;
     font-size: 40px; font-weight: 800; color: white; box-shadow: 0 10px 30px rgba(99,102,241,0.4);
-    margin-bottom: 10px;
   }
   h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; }
   .subtitle { color: var(--muted); font-size: 14px; line-height: 1.5; max-width: 320px; }
@@ -41,20 +39,17 @@
   .input-group { display: flex; flex-direction: column; gap: 12px; width: 100%; margin-top: 10px; }
   .input-field {
     background: var(--card); border: 2px solid var(--border); color: var(--text);
-    border-radius: 14px; padding: 16px; font-size: 16px; font-family: inherit;
+    border-radius: 14px; padding: 14px; font-size: 16px; font-family: inherit;
     outline: none; transition: border-color 0.2s; width: 100%;
   }
   .input-field:focus { border-color: var(--accent); }
   .input-field::placeholder { color: var(--muted); }
   .input-field.error { border-color: #ef4444; animation: shake 0.3s; }
-  
-  @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    75% { transform: translateX(5px); }
-  }
+  @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
 
   .info-box { background: rgba(30, 41, 59, 0.5); border-radius: 14px; padding: 14px; font-size: 13px; color: var(--muted); line-height: 1.5; text-align: left; width: 100%; margin-top: 10px; }
+  
+  /* Botones */
   .btn {
     padding: 16px 24px; background: linear-gradient(135deg, var(--accent), var(--accent-2));
     color: white; border: none; border-radius: 14px; font-size: 16px; font-weight: 600;
@@ -62,9 +57,10 @@
   }
   .btn:active { transform: scale(0.97); }
   .btn.secondary { background: transparent; border: 1px solid var(--border); color: var(--text); margin-top: 0; }
+  .btn.share { background: #25D366; margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; }
   .btn:disabled { opacity: 0.4; cursor: not-allowed; }
-  
-  /* Pantalla de preguntas */
+
+  /* Quiz */
   .quiz-header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
   .progress-bar { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
   .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); transition: width 0.3s ease; border-radius: 3px; width: 0; }
@@ -88,12 +84,12 @@
   .nav-buttons { display: flex; gap: 10px; margin-top: auto; }
   .nav-buttons .btn { flex: 1; }
   
-  /* Pantalla de resultados */
-  .results { gap: 20px; padding-bottom: 20px; overflow-y: auto; }
-  .results-header { text-align: center; margin-bottom: 8px; }
-  .results-header h1 { font-size: 26px; }
+  /* Resultados */
+  .results-header { text-align: center; margin-bottom: 15px; }
+  .results-header h1 { font-size: 26px; color: var(--accent); }
   .results-header p { color: var(--muted); font-size: 14px; margin-top: 6px; }
-  .trait-card { background: var(--card); border-radius: 16px; padding: 16px; border-left: 4px solid; }
+  
+  .trait-card { background: var(--card); border-radius: 16px; padding: 16px; border-left: 4px solid; margin-bottom: 12px; }
   .trait-card.O { border-color: var(--O); } .trait-card.C { border-color: var(--C); }
   .trait-card.E { border-color: var(--E); } .trait-card.A { border-color: var(--A); }
   .trait-card.N { border-color: var(--N); }
@@ -105,32 +101,36 @@
   .trait-card.O .trait-bar-fill { background: var(--O); } .trait-card.C .trait-bar-fill { background: var(--C); }
   .trait-card.E .trait-bar-fill { background: var(--E); } .trait-card.A .trait-bar-fill { background: var(--A); }
   .trait-card.N .trait-bar-fill { background: var(--N); }
-  .trait-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
+  .trait-desc { font-size: 13px; color: var(--text); line-height: 1.5; background: rgba(0,0,0,0.2); padding: 8px; border-radius: 8px; margin-top: 8px; }
+  
+  /* Historial */
+  .history-item { background: var(--card); padding: 16px; border-radius: 14px; margin-bottom: 10px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border); transition: border-color 0.2s; }
+  .history-item:active { background: var(--border); }
+  .history-info h4 { font-size: 16px; margin-bottom: 4px; }
+  .history-info p { font-size: 12px; color: var(--muted); }
+  .history-arrow { color: var(--accent); font-size: 20px; }
 </style>
 </head>
 <body>
 <div class="container">
+  
   <!-- BIENVENIDA -->
   <section id="screen-welcome" class="screen active welcome">
     <div class="logo">5</div>
     <div>
       <h1>Big 5 Test</h1>
-      <p class="subtitle">Descubre tu perfil en los 5 grandes rasgos de la personalidad</p>
+      <p class="subtitle">Descubre tu perfil en los 5 grandes rasgos</p>
     </div>
-    
     <div class="input-group">
       <input type="text" id="input-name" class="input-field" placeholder="Tu nombre" maxlength="25" autocomplete="off">
       <input type="number" id="input-age" class="input-field" placeholder="Tu edad" min="10" max="99" autocomplete="off">
     </div>
-
     <div class="info-box">
       <strong style="color: var(--text); display: block; margin-bottom: 4px;">Cómo funciona</strong>
-      20 preguntas · 5 minutos · Sin registro.<br>
-      Responde con honestidad. No hay respuestas correctas o incorrectas.
+      20 preguntas · 5 minutos · Sin registro. Responde con honestidad.
     </div>
-    
     <button class="btn" onclick="startQuiz()">Comenzar test</button>
-    <button class="btn secondary" onclick="showLastResult()" id="btn-history" style="display:none;">Ver mi último resultado</button>
+    <button class="btn secondary" onclick="showHistory()" id="btn-history" style="display:none; margin-top: 5px;">Ver historial de tests</button>
   </section>
 
   <!-- PREGUNTAS -->
@@ -156,7 +156,19 @@
       <p id="result-date" style="font-size: 12px; margin-top: 4px; opacity: 0.7;"></p>
     </div>
     <div id="traits-container"></div>
-    <button class="btn" onclick="restart()" style="margin-top: 20px;">Hacer el test de nuevo</button>
+    
+    <button class="btn share" onclick="shareResult()">📲 Compartir mi resultado</button>
+    <button class="btn secondary" onclick="restart()" style="margin-top: 10px;">Hacer el test de nuevo</button>
+  </section>
+
+  <!-- HISTORIAL -->
+  <section id="screen-history" class="screen">
+    <div class="results-header" style="text-align: left; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+      <button class="btn secondary" style="width: auto; padding: 8px 12px; border-radius: 10px;" onclick="restart()">← Volver</button>
+      <h1 style="font-size: 20px; color: var(--text);">Historial</h1>
+    </div>
+    <div id="history-list"></div>
+    <button class="btn secondary" onclick="clearHistory()" style="margin-top: auto; color: #ef4444; border-color: #ef4444;">Borrar historial</button>
   </section>
 </div>
 
@@ -185,65 +197,75 @@ const QUESTIONS = [
 ];
 
 const TRAITS = {
-  O: { name: "Apertura", desc: "Imaginación, curiosidad, apertura a nuevas ideas y experiencias." },
-  C: { name: "Responsabilidad", desc: "Organización, disciplina, orientación a metas y cumplimiento." },
-  E: { name: "Extraversión", desc: "Sociabilidad, energía, asertividad y búsqueda de estimulación." },
-  A: { name: "Amabilidad", desc: "Cooperación, empatía, confianza y consideración hacia otros." },
-  N: { name: "Neuroticismo", desc: "Tendencia a experimentar emociones negativas como ansiedad e irritabilidad." }
+  O: { name: "Apertura" },
+  C: { name: "Responsabilidad" },
+  E: { name: "Extraversión" },
+  A: { name: "Amabilidad" },
+  N: { name: "Neuroticismo" }
+};
+
+// Interpretaciones según puntaje (Bajo: <34, Medio: 34-66, Alto: >66)
+const INTERPRETATIONS = {
+  O: {
+    high: "Eres una persona muy creativa, curiosa y con una imaginación vívida. Disfrutas explorar nuevas ideas, el arte y las experiencias no convencionales.",
+    med: "Tienes un equilibrio entre la curiosidad y la practicidad. Estás abierto a nuevas ideas, pero también valoras lo conocido.",
+    low: "Prefieres la rutina, lo concreto y lo tradicional. Te sientes más cómodo con lo que ya conoces y no buscas cambios innecesarios."
+  },
+  C: {
+    high: "Eres muy organizado, disciplinado y confiable. Sueles planificar a futuro y te esfuerzas por cumplir tus metas con precisión.",
+    med: "Tienes un nivel de organización equilibrado. Puedes ser metódico cuando lo necesitas, pero también te permites cierta flexibilidad.",
+    low: "Prefieres la espontaneidad sobre los planes estrictos. Puedes ser un poco desordenado y dejar las cosas para después, priorizando el momento presente."
+  },
+  E: {
+    high: "Eres muy sociable, energético y disfrutas ser el centro de atención. Recargas tu energía rodeado de gente y tomas la iniciativa fácilmente.",
+    med: "Tienes un equilibrio entre la vida social y la soledad. Disfrutas de las reuniones, pero también valoras tu tiempo a solas.",
+    low: "Eres reservado y prefieres la tranquilidad de estar solo o con muy pocas personas. La interacción social intensa tiende a agotarte."
+  },
+  A: {
+    high: "Eres muy empático, cooperativo y considerado. Te importa el bienestar de los demás y tiendes a confiar en la gente, evitando los conflictos.",
+    med: "Eres amable pero también asertivo. Sabes cuándo ayudar a los demás y cuándo poner tus propios límites.",
+    low: "Eres directo, franco y competitivo. Priorizas la lógica sobre los sentimientos ajenos y no temes expresar tu desacuerdo."
+  },
+  N: {
+    high: "Eres muy sensible y tiendes a experimentar emociones intensas como el estrés o la preocupación. Eres consciente de los riesgos, aunque a veces esto te cause ansiedad.",
+    med: "Tienes un nivel de estabilidad emocional moderado. Puedes estresarte en situaciones difíciles, pero generalmente sabes cómo recuperar la calma.",
+    low: "Eres muy estable y resiliente. Rara vez te sientes abrumado por el estrés o la tristeza; mantienes la calma incluso bajo presión."
+  }
 };
 
 const SCALE = [
-  { val: 1, label: "Muy en desacuerdo" },
-  { val: 2, label: "En desacuerdo" },
-  { val: 3, label: "Neutral" },
-  { val: 4, label: "De acuerdo" },
-  { val: 5, label: "Muy de acuerdo" }
+  { val: 1, label: "Muy en desacuerdo" }, { val: 2, label: "En desacuerdo" },
+  { val: 3, label: "Neutral" }, { val: 4, label: "De acuerdo" }, { val: 5, label: "Muy de acuerdo" }
 ];
 
 let current = 0;
 let answers = [];
 let userData = { name: "", age: "" };
+let currentResult = null;
 
 function $(id) { return document.getElementById(id); }
 function show(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   $(id).classList.add('active');
+  window.scrollTo(0, 0);
 }
 
 function startQuiz() {
-  const nameInput = $('input-name');
-  const ageInput = $('input-age');
-  
+  const nameInput = $('input-name'), ageInput = $('input-age');
   let isValid = true;
-  
-  if (!nameInput.value.trim()) {
-    nameInput.classList.add('error');
-    isValid = false;
-  } else {
-    nameInput.classList.remove('error');
-  }
-
+  if (!nameInput.value.trim()) { nameInput.classList.add('error'); isValid = false; } else { nameInput.classList.remove('error'); }
   const ageVal = parseInt(ageInput.value);
-  if (!ageVal || ageVal < 10 || ageVal > 99) {
-    ageInput.classList.add('error');
-    isValid = false;
-  } else {
-    ageInput.classList.remove('error');
-  }
+  if (!ageVal || ageVal < 10 || ageVal > 99) { ageInput.classList.add('error'); isValid = false; } else { ageInput.classList.remove('error'); }
+  if (!isValid) return;
 
-  if (!isValid) return; // Detiene el flujo si hay error
-
-  // Guardar datos y arrancar
   userData.name = nameInput.value.trim();
   userData.age = ageVal;
-  
   current = 0;
   answers = new Array(QUESTIONS.length).fill(null);
   show('screen-quiz');
   renderQuestion();
 }
 
-// Quitar el borde rojo cuando el usuario empieza a escribir
 $('input-name').addEventListener('input', function() { this.classList.remove('error'); });
 $('input-age').addEventListener('input', function() { this.classList.remove('error'); });
 
@@ -278,7 +300,6 @@ function selectOption(val) {
 }
 
 function prevQuestion() { if (current > 0) { current--; renderQuestion(); } }
-
 function nextQuestion() {
   if (answers[current] === null) return;
   if (current === QUESTIONS.length - 1) finishQuiz();
@@ -291,75 +312,117 @@ function finishQuiz() {
     const v = q.r ? (6 - answers[i]) : answers[i];
     scores[q.t] += v;
   });
-  Object.keys(scores).forEach(k => {
-    scores[k] = Math.round(((scores[k] - 4) / 16) * 100);
-  });
+  Object.keys(scores).forEach(k => { scores[k] = Math.round(((scores[k] - 4) / 16) * 100); });
   
-  const result = { 
-    scores, 
-    date: new Date().toISOString(),
-    name: userData.name,
-    age: userData.age
-  };
-  
-  try { localStorage.setItem('big5_last', JSON.stringify(result)); } catch(e) {}
-  renderResults(result);
+  currentResult = { scores, date: new Date().toISOString(), name: userData.name, age: userData.age };
+  saveToHistory(currentResult);
+  renderResults(currentResult);
 }
 
 function renderResults(result) {
-  // Configurar cabecera con nombre y edad
+  currentResult = result;
   $('result-title').textContent = result.name ? "El perfil de " + result.name : "Tu perfil";
-  
-  let subtitleText = "";
-  if (result.age) subtitleText += result.age + " años";
-  $('result-subtitle').textContent = subtitleText;
-
-  // Fecha
-  $('result-date').textContent = new Date(result.date).toLocaleDateString('es-MX', {
-    day: 'numeric', month: 'long', year: 'numeric'
-  });
+  $('result-subtitle').textContent = result.age ? result.age + " años" : "";
+  $('result-date').textContent = new Date(result.date).toLocaleDateString('es-MX', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute:'2-digit' });
 
   const container = $('traits-container');
   container.innerHTML = '';
   ['O', 'C', 'E', 'A', 'N'].forEach(k => {
-    const trait = TRAITS[k];
     const score = result.scores[k];
+    let interp = INTERPRETATIONS[k].med;
+    if (score >= 67) interp = INTERPRETATIONS[k].high;
+    if (score <= 33) interp = INTERPRETATIONS[k].low;
+
     const card = document.createElement('div');
     card.className = 'trait-card ' + k;
     card.innerHTML =
-      '<div class="trait-header"><div class="trait-name">' + trait.name + '</div>' +
+      '<div class="trait-header"><div class="trait-name">' + TRAITS[k].name + '</div>' +
       '<div class="trait-score">' + score + '</div></div>' +
       '<div class="trait-bar"><div class="trait-bar-fill" data-score="' + score + '"></div></div>' +
-      '<div class="trait-desc">' + trait.desc + '</div>';
+      '<div class="trait-desc">' + interp + '</div>';
     container.appendChild(card);
   });
   
   show('screen-results');
   setTimeout(() => {
-    document.querySelectorAll('.trait-bar-fill').forEach(bar => {
-      bar.style.width = bar.dataset.score + '%';
-    });
+    document.querySelectorAll('.trait-bar-fill').forEach(bar => { bar.style.width = bar.dataset.score + '%'; });
   }, 50);
 }
 
-function showLastResult() {
+function shareResult() {
+  if (!currentResult) return;
+  const topTraitKey = Object.keys(currentResult.scores).reduce((a, b) => currentResult.scores[a] > currentResult.scores[b] ? a : b);
+  const topTraitName = TRAITS[topTraitKey].name;
+  const text = `¡Hice el Big 5 Test! Mi rasgo más alto es ${topTraitName} (${currentResult.scores[topTraitKey]} pts). Descubre el tuyo aquí: ${window.location.href}`;
+  
+  if (navigator.share) {
+    navigator.share({ title: 'Mi perfil Big 5', text: text, url: window.location.href }).catch(console.error);
+  } else {
+    navigator.clipboard.writeText(text).then(() => {
+      alert("¡Texto copiado! Pégalo en WhatsApp o donde quieras.");
+    }).catch(() => {
+      alert("Copia manualmente este texto:\n\n" + text);
+    });
+  }
+}
+
+// --- HISTORIAL ---
+function saveToHistory(result) {
   try {
-    const raw = localStorage.getItem('big5_last');
-    if (raw) renderResults(JSON.parse(raw));
+    let hist = JSON.parse(localStorage.getItem('big5_history') || '[]');
+    hist.unshift(result);
+    if (hist.length > 10) hist = hist.slice(0, 10);
+    localStorage.setItem('big5_history', JSON.stringify(hist));
+    localStorage.removeItem('big5_last');
   } catch(e) {}
+}
+
+function showHistory() {
+  const list = $('history-list');
+  list.innerHTML = '';
+  try {
+    const hist = JSON.parse(localStorage.getItem('big5_history') || '[]');
+    if (hist.length === 0) {
+      list.innerHTML = '<p style="color: var(--muted); text-align: center; margin-top: 20px;">No hay tests guardados aún.</p>';
+    } else {
+      hist.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'history-item';
+        const d = new Date(item.date);
+        const dateStr = d.toLocaleDateString('es-MX', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+        div.innerHTML = `
+          <div class="history-info">
+            <h4>${item.name || 'Anónimo'} ${item.age ? '('+item.age+' años)' : ''}</h4>
+            <p>${dateStr}</p>
+          </div>
+          <div class="history-arrow">›</div>
+        `;
+        div.onclick = () => renderResults(item);
+        list.appendChild(div);
+      });
+    }
+    show('screen-history');
+  } catch(e) { show('screen-history'); }
+}
+
+function clearHistory() {
+  if (confirm("¿Seguro que quieres borrar todo el historial?")) {
+    localStorage.removeItem('big5_history');
+    showHistory();
+  }
 }
 
 function restart() { 
   show('screen-welcome'); 
   checkHistory(); 
-  // Limpiamos los inputs para el siguiente test
-  $('input-name').value = "";
-  $('input-age').value = "";
+  $('input-name').value = ""; 
+  $('input-age').value = ""; 
 }
 
 function checkHistory() {
   try {
-    if (localStorage.getItem('big5_last')) $('btn-history').style.display = 'block';
+    const hist = JSON.parse(localStorage.getItem('big5_history') || '[]');
+    if (hist.length > 0) $('btn-history').style.display = 'block';
   } catch(e) {}
 }
 
