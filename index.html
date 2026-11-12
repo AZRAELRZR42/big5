@@ -49,6 +49,14 @@
 
   .info-box { background: rgba(30, 41, 59, 0.5); border-radius: 14px; padding: 14px; font-size: 13px; color: var(--muted); line-height: 1.5; text-align: left; width: 100%; margin-top: 10px; }
   
+  /* AVISO LEGAL */
+  .disclaimer {
+    background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 14px; padding: 14px; font-size: 12px; color: #fca5a5;
+    line-height: 1.4; text-align: left; width: 100%; margin-top: 5px; display: flex; gap: 10px; align-items: flex-start;
+  }
+  .disclaimer-icon { font-size: 16px; line-height: 1; }
+
   /* Botones */
   .btn {
     padding: 16px 24px; background: linear-gradient(135deg, var(--accent), var(--accent-2));
@@ -125,9 +133,15 @@
       <input type="text" id="input-name" class="input-field" placeholder="Tu nombre" maxlength="25" autocomplete="off">
       <input type="number" id="input-age" class="input-field" placeholder="Tu edad" min="10" max="99" autocomplete="off">
     </div>
+
+    <div class="disclaimer">
+      <div class="disclaimer-icon">⚠️</div>
+      <div><strong>Aviso importante:</strong> Este test es una herramienta de autoconocimiento y orientación. <strong>No sustituye</strong> una evaluación, diagnóstico o terapia con un profesional de la salud mental.</div>
+    </div>
+
     <div class="info-box">
       <strong style="color: var(--text); display: block; margin-bottom: 4px;">Cómo funciona</strong>
-      20 preguntas · 5 minutos · Sin registro. Responde con honestidad.
+      40 preguntas · 7 minutos · Sin registro. Responde con honestidad.
     </div>
     <button class="btn" onclick="startQuiz()">Comenzar test</button>
     <button class="btn secondary" onclick="showHistory()" id="btn-history" style="display:none; margin-top: 5px;">Ver historial de tests</button>
@@ -137,7 +151,7 @@
   <section id="screen-quiz" class="screen">
     <div class="quiz-header">
       <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
-      <div class="progress-text" id="progress-text">1/20</div>
+      <div class="progress-text" id="progress-text">1/40</div>
     </div>
     <div class="question-number" id="q-number">Pregunta 1</div>
     <div class="question" id="q-text"></div>
@@ -173,28 +187,61 @@
 </div>
 
 <script>
+// 40 PREGUNTAS (8 por rasgo, 4 positivas y 4 negativas)
 const QUESTIONS = [
+  // Apertura (O)
+  { q: "Tengo un vocabulario rico", t: "O", r: false },
+  { q: "Tengo dificultad entendiendo ideas abstractas", t: "O", r: true },
+  { q: "Tengo una imaginación vívida", t: "O", r: false },
+  { q: "No me interesan las ideas abstractas", t: "O", r: true },
+  { q: "Disfruto pensar en teorías y conceptos complejos", t: "O", r: false },
+  { q: "No me gusta el arte ni las actividades creativas", t: "O", r: true },
+  { q: "Soy muy creativo(a) e innovador(a)", t: "O", r: false },
+  { q: "Prefiero hacer las cosas de la forma tradicional", t: "O", r: true },
+
+  // Responsabilidad (C)
+  { q: "Siempre estoy preparado(a)", t: "C", r: false },
+  { q: "Dejo mis cosas por ahí", t: "C", r: true },
+  { q: "Presto atención a los detalles", t: "C", r: false },
+  { q: "Hago un desastre de las cosas", t: "C", r: true },
+  { q: "Sigo un horario y me ciño a él", t: "C", r: false },
+  { q: "Dejo las tareas para el último momento", t: "C", r: true },
+  { q: "Cumplo mis promesas y compromisos", t: "C", r: false },
+  { q: "A menudo olvido poner las cosas en su lugar", t: "C", r: true },
+
+  // Extraversión (E)
   { q: "Soy el alma de la fiesta", t: "E", r: false },
   { q: "No hablo mucho", t: "E", r: true },
   { q: "Hablo con muchas personas diferentes en las fiestas", t: "E", r: false },
   { q: "Me mantengo en segundo plano", t: "E", r: true },
+  { q: "Tomo la iniciativa para iniciar conversaciones", t: "E", r: false },
+  { q: "Soy tímido(a) con los extraños", t: "E", r: true },
+  { q: "Tengo mucha energía y entusiasmo", t: "E", r: false },
+  { q: "Prefiero quedarme en casa un sábado por la noche", t: "E", r: true },
+
+  // Amabilidad (A)
   { q: "Simpatizo con los sentimientos de los demás", t: "A", r: false },
   { q: "No me interesan los problemas de los demás", t: "A", r: true },
   { q: "Tengo un corazón blando", t: "A", r: false },
   { q: "Realmente no me interesan los demás", t: "A", r: true },
-  { q: "Siempre estoy preparado", t: "C", r: false },
-  { q: "Dejo mis cosas por ahí", t: "C", r: true },
-  { q: "Presto atención a los detalles", t: "C", r: false },
-  { q: "Hago un desastre de las cosas", t: "C", r: true },
+  { q: "Confío en que la gente tiene buenas intenciones", t: "A", r: false },
+  { q: "Tiendo a menospreciar a los demás", t: "A", r: true },
+  { q: "Me preocupo por el bienestar de los demás", t: "A", r: false },
+  { q: "Insulto a la gente cuando estoy enojado(a)", t: "A", r: true },
+
+  // Neuroticismo (N)
   { q: "Me estreso fácilmente", t: "N", r: false },
-  { q: "Estoy relajado la mayor parte del tiempo", t: "N", r: true },
+  { q: "Estoy relajado(a) la mayor parte del tiempo", t: "N", r: true },
   { q: "Me preocupo por las cosas", t: "N", r: false },
   { q: "Rara vez me siento triste", t: "N", r: true },
-  { q: "Tengo un vocabulario rico", t: "O", r: false },
-  { q: "Tengo dificultad entendiendo ideas abstractas", t: "O", r: true },
-  { q: "Tengo una imaginación vívida", t: "O", r: false },
-  { q: "No me interesan las ideas abstractas", t: "O", r: true }
+  { q: "Me pongo ansioso(a) con facilidad", t: "N", r: false },
+  { q: "Soy una persona muy calmada", t: "N", r: true },
+  { q: "Tengo cambios de humor frecuentes", t: "N", r: false },
+  { q: "Me mantengo estable y no me altero fácilmente", t: "N", r: true }
 ];
+
+// Mezclar las preguntas para que no salgan agrupadas por rasgo
+QUESTIONS.sort(() => Math.random() - 0.5);
 
 const TRAITS = {
   O: { name: "Apertura" },
@@ -204,7 +251,6 @@ const TRAITS = {
   N: { name: "Neuroticismo" }
 };
 
-// Interpretaciones según puntaje (Bajo: <34, Medio: 34-66, Alto: >66)
 const INTERPRETATIONS = {
   O: {
     high: "Eres una persona muy creativa, curiosa y con una imaginación vívida. Disfrutas explorar nuevas ideas, el arte y las experiencias no convencionales.",
@@ -308,11 +354,19 @@ function nextQuestion() {
 
 function finishQuiz() {
   const scores = { O: 0, C: 0, E: 0, A: 0, N: 0 };
+  let counts = { O: 0, C: 0, E: 0, A: 0, N: 0 };
+  
   QUESTIONS.forEach((q, i) => {
     const v = q.r ? (6 - answers[i]) : answers[i];
     scores[q.t] += v;
+    counts[q.t]++;
   });
-  Object.keys(scores).forEach(k => { scores[k] = Math.round(((scores[k] - 4) / 16) * 100); });
+
+  // Cálculo ajustado para 8 preguntas por rasgo (rango de 8 a 40)
+  Object.keys(scores).forEach(k => { 
+    // Fórmula de normalización porcentual
+    scores[k] = Math.round(((scores[k] - counts[k]) / (counts[k] * 4)) * 100); 
+  });
   
   currentResult = { scores, date: new Date().toISOString(), name: userData.name, age: userData.age };
   saveToHistory(currentResult);
@@ -373,7 +427,6 @@ function saveToHistory(result) {
     hist.unshift(result);
     if (hist.length > 10) hist = hist.slice(0, 10);
     localStorage.setItem('big5_history', JSON.stringify(hist));
-    localStorage.removeItem('big5_last');
   } catch(e) {}
 }
 
