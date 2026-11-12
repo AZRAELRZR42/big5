@@ -25,23 +25,46 @@
   .container { flex: 1; display: flex; flex-direction: column; padding: 20px; max-width: 600px; margin: 0 auto; width: 100%; }
   .screen { display: none; flex-direction: column; flex: 1; }
   .screen.active { display: flex; }
-  .welcome { align-items: center; justify-content: center; text-align: center; gap: 24px; padding: 40px 20px; }
+  
+  /* Pantalla de bienvenida */
+  .welcome { align-items: center; justify-content: center; text-align: center; gap: 20px; padding: 20px; }
   .logo {
-    width: 96px; height: 96px; background: linear-gradient(135deg, var(--accent), var(--accent-2));
-    border-radius: 24px; display: flex; align-items: center; justify-content: center;
-    font-size: 48px; font-weight: 800; color: white; box-shadow: 0 12px 40px rgba(99,102,241,0.4);
+    width: 80px; height: 80px; background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    border-radius: 20px; display: flex; align-items: center; justify-content: center;
+    font-size: 40px; font-weight: 800; color: white; box-shadow: 0 10px 30px rgba(99,102,241,0.4);
+    margin-bottom: 10px;
   }
-  h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; }
-  .subtitle { color: var(--muted); font-size: 15px; line-height: 1.5; max-width: 320px; }
-  .info-box { background: var(--card); border-radius: 16px; padding: 16px; font-size: 14px; color: var(--muted); line-height: 1.5; text-align: left; width: 100%; }
+  h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; }
+  .subtitle { color: var(--muted); font-size: 14px; line-height: 1.5; max-width: 320px; }
+  
+  /* Inputs */
+  .input-group { display: flex; flex-direction: column; gap: 12px; width: 100%; margin-top: 10px; }
+  .input-field {
+    background: var(--card); border: 2px solid var(--border); color: var(--text);
+    border-radius: 14px; padding: 16px; font-size: 16px; font-family: inherit;
+    outline: none; transition: border-color 0.2s; width: 100%;
+  }
+  .input-field:focus { border-color: var(--accent); }
+  .input-field::placeholder { color: var(--muted); }
+  .input-field.error { border-color: #ef4444; animation: shake 0.3s; }
+  
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+  }
+
+  .info-box { background: rgba(30, 41, 59, 0.5); border-radius: 14px; padding: 14px; font-size: 13px; color: var(--muted); line-height: 1.5; text-align: left; width: 100%; margin-top: 10px; }
   .btn {
     padding: 16px 24px; background: linear-gradient(135deg, var(--accent), var(--accent-2));
     color: white; border: none; border-radius: 14px; font-size: 16px; font-weight: 600;
-    cursor: pointer; width: 100%; transition: transform 0.15s; font-family: inherit;
+    cursor: pointer; width: 100%; transition: transform 0.15s; font-family: inherit; margin-top: 10px;
   }
   .btn:active { transform: scale(0.97); }
-  .btn.secondary { background: transparent; border: 1px solid var(--border); color: var(--text); }
+  .btn.secondary { background: transparent; border: 1px solid var(--border); color: var(--text); margin-top: 0; }
   .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  
+  /* Pantalla de preguntas */
   .quiz-header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
   .progress-bar { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
   .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); transition: width 0.3s ease; border-radius: 3px; width: 0; }
@@ -64,6 +87,8 @@
   .option.selected .option-circle { background: var(--accent); border-color: var(--accent); color: white; }
   .nav-buttons { display: flex; gap: 10px; margin-top: auto; }
   .nav-buttons .btn { flex: 1; }
+  
+  /* Pantalla de resultados */
   .results { gap: 20px; padding-bottom: 20px; overflow-y: auto; }
   .results-header { text-align: center; margin-bottom: 8px; }
   .results-header h1 { font-size: 26px; }
@@ -85,21 +110,30 @@
 </head>
 <body>
 <div class="container">
+  <!-- BIENVENIDA -->
   <section id="screen-welcome" class="screen active welcome">
     <div class="logo">5</div>
     <div>
-      <h1>Test de Personalidad</h1>
-      <p class="subtitle">Descubre tu perfil en los 5 grandes rasgos</p>
+      <h1>Big 5 Test</h1>
+      <p class="subtitle">Descubre tu perfil en los 5 grandes rasgos de la personalidad</p>
     </div>
+    
+    <div class="input-group">
+      <input type="text" id="input-name" class="input-field" placeholder="Tu nombre" maxlength="25" autocomplete="off">
+      <input type="number" id="input-age" class="input-field" placeholder="Tu edad" min="10" max="99" autocomplete="off">
+    </div>
+
     <div class="info-box">
-      <strong style="color: var(--text); display: block; margin-bottom: 6px;">Cómo funciona</strong>
-      20 preguntas · 5 minutos · Sin registro<br>
+      <strong style="color: var(--text); display: block; margin-bottom: 4px;">Cómo funciona</strong>
+      20 preguntas · 5 minutos · Sin registro.<br>
       Responde con honestidad. No hay respuestas correctas o incorrectas.
     </div>
+    
     <button class="btn" onclick="startQuiz()">Comenzar test</button>
     <button class="btn secondary" onclick="showLastResult()" id="btn-history" style="display:none;">Ver mi último resultado</button>
   </section>
 
+  <!-- PREGUNTAS -->
   <section id="screen-quiz" class="screen">
     <div class="quiz-header">
       <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
@@ -114,13 +148,15 @@
     </div>
   </section>
 
+  <!-- RESULTADOS -->
   <section id="screen-results" class="screen results">
     <div class="results-header">
-      <h1>Tu perfil</h1>
-      <p id="result-date"></p>
+      <h1 id="result-title">Tu perfil</h1>
+      <p id="result-subtitle"></p>
+      <p id="result-date" style="font-size: 12px; margin-top: 4px; opacity: 0.7;"></p>
     </div>
     <div id="traits-container"></div>
-    <button class="btn" onclick="restart()">Repetir test</button>
+    <button class="btn" onclick="restart()" style="margin-top: 20px;">Hacer el test de nuevo</button>
   </section>
 </div>
 
@@ -166,6 +202,7 @@ const SCALE = [
 
 let current = 0;
 let answers = [];
+let userData = { name: "", age: "" };
 
 function $(id) { return document.getElementById(id); }
 function show(id) {
@@ -174,11 +211,41 @@ function show(id) {
 }
 
 function startQuiz() {
+  const nameInput = $('input-name');
+  const ageInput = $('input-age');
+  
+  let isValid = true;
+  
+  if (!nameInput.value.trim()) {
+    nameInput.classList.add('error');
+    isValid = false;
+  } else {
+    nameInput.classList.remove('error');
+  }
+
+  const ageVal = parseInt(ageInput.value);
+  if (!ageVal || ageVal < 10 || ageVal > 99) {
+    ageInput.classList.add('error');
+    isValid = false;
+  } else {
+    ageInput.classList.remove('error');
+  }
+
+  if (!isValid) return; // Detiene el flujo si hay error
+
+  // Guardar datos y arrancar
+  userData.name = nameInput.value.trim();
+  userData.age = ageVal;
+  
   current = 0;
   answers = new Array(QUESTIONS.length).fill(null);
   show('screen-quiz');
   renderQuestion();
 }
+
+// Quitar el borde rojo cuando el usuario empieza a escribir
+$('input-name').addEventListener('input', function() { this.classList.remove('error'); });
+$('input-age').addEventListener('input', function() { this.classList.remove('error'); });
 
 function renderQuestion() {
   const q = QUESTIONS[current];
@@ -227,15 +294,31 @@ function finishQuiz() {
   Object.keys(scores).forEach(k => {
     scores[k] = Math.round(((scores[k] - 4) / 16) * 100);
   });
-  const result = { scores, date: new Date().toISOString() };
+  
+  const result = { 
+    scores, 
+    date: new Date().toISOString(),
+    name: userData.name,
+    age: userData.age
+  };
+  
   try { localStorage.setItem('big5_last', JSON.stringify(result)); } catch(e) {}
   renderResults(result);
 }
 
 function renderResults(result) {
+  // Configurar cabecera con nombre y edad
+  $('result-title').textContent = result.name ? "El perfil de " + result.name : "Tu perfil";
+  
+  let subtitleText = "";
+  if (result.age) subtitleText += result.age + " años";
+  $('result-subtitle').textContent = subtitleText;
+
+  // Fecha
   $('result-date').textContent = new Date(result.date).toLocaleDateString('es-MX', {
     day: 'numeric', month: 'long', year: 'numeric'
   });
+
   const container = $('traits-container');
   container.innerHTML = '';
   ['O', 'C', 'E', 'A', 'N'].forEach(k => {
@@ -250,6 +333,7 @@ function renderResults(result) {
       '<div class="trait-desc">' + trait.desc + '</div>';
     container.appendChild(card);
   });
+  
   show('screen-results');
   setTimeout(() => {
     document.querySelectorAll('.trait-bar-fill').forEach(bar => {
@@ -265,7 +349,13 @@ function showLastResult() {
   } catch(e) {}
 }
 
-function restart() { show('screen-welcome'); checkHistory(); }
+function restart() { 
+  show('screen-welcome'); 
+  checkHistory(); 
+  // Limpiamos los inputs para el siguiente test
+  $('input-name').value = "";
+  $('input-age').value = "";
+}
 
 function checkHistory() {
   try {
