@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#6366f1">
+<meta name="theme-color" content="#ffffff">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>Big 5 Test</title>
 <link rel="manifest" href="manifest.json">
@@ -11,8 +11,16 @@
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   :root {
-    --bg: #0f172a; --card: #1e293b; --text: #f1f5f9; --muted: #94a3b8;
-    --accent: #6366f1; --accent-2: #8b5cf6; --border: #334155;
+    /* NUEVA PALETA MODO CLARO */
+    --bg: #f8fafc; 
+    --card: #ffffff; 
+    --text: #1e293b; 
+    --muted: #64748b;
+    --accent: #6366f1; 
+    --accent-2: #8b5cf6; 
+    --border: #e2e8f0;
+    
+    /* COLORES DE RASGOS (Ligeramente más sobrios para fondo blanco) */
     --O: #8b5cf6; --C: #3b82f6; --E: #f59e0b; --A: #10b981; --N: #ef4444;
   }
   body {
@@ -27,102 +35,73 @@
   
   /* Bienvenida */
   .welcome { align-items: center; justify-content: center; text-align: center; gap: 16px; padding: 20px 0; }
-  .logo {
-    width: 80px; height: 80px; background: linear-gradient(135deg, var(--accent), var(--accent-2));
-    border-radius: 20px; display: flex; align-items: center; justify-content: center;
-    font-size: 40px; font-weight: 800; color: white; box-shadow: 0 10px 30px rgba(99,102,241,0.4);
-  }
-  h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; }
-  .subtitle { color: var(--muted); font-size: 14px; line-height: 1.5; max-width: 320px; }
+  .logo { width: 80px; height: 80px; background: linear-gradient(135deg, var(--accent), var(--accent-2)); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 40px; font-weight: 800; color: white; box-shadow: 0 10px 25px rgba(99,102,241,0.3); }
+  h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; color: var(--text); }
+  .subtitle { color: var(--muted); font-size: 15px; line-height: 1.5; max-width: 320px; }
   
   /* Inputs */
   .input-group { display: flex; flex-direction: column; gap: 12px; width: 100%; margin-top: 10px; }
-  .input-field {
-    background: var(--card); border: 2px solid var(--border); color: var(--text);
-    border-radius: 14px; padding: 14px; font-size: 16px; font-family: inherit;
-    outline: none; transition: border-color 0.2s; width: 100%;
-  }
+  .input-field { background: var(--card); border: 2px solid var(--border); color: var(--text); border-radius: 14px; padding: 14px; font-size: 16px; font-family: inherit; outline: none; transition: border-color 0.2s; width: 100%; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
   .input-field:focus { border-color: var(--accent); }
-  .input-field::placeholder { color: var(--muted); }
+  .input-field::placeholder { color: #94a3b8; }
   .input-field.error { border-color: #ef4444; animation: shake 0.3s; }
   @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
 
-  .info-box { background: rgba(30, 41, 59, 0.5); border-radius: 14px; padding: 14px; font-size: 13px; color: var(--muted); line-height: 1.5; text-align: left; width: 100%; margin-top: 10px; }
+  .info-box { background: #ffffff; border: 1px solid var(--border); border-radius: 14px; padding: 14px; font-size: 14px; color: var(--muted); line-height: 1.5; text-align: left; width: 100%; margin-top: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
   
   /* AVISO LEGAL */
-  .disclaimer {
-    background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3);
-    border-radius: 14px; padding: 14px; font-size: 12px; color: #fca5a5;
-    line-height: 1.4; text-align: left; width: 100%; margin-top: 5px; display: flex; gap: 10px; align-items: flex-start;
-  }
-  .disclaimer-icon { font-size: 16px; line-height: 1; }
+  .disclaimer { background: #fef2f2; border: 1px solid #fecaca; border-radius: 14px; padding: 14px; font-size: 13px; color: #991b1b; line-height: 1.4; text-align: left; width: 100%; margin-top: 5px; display: flex; gap: 10px; align-items: flex-start; }
+  .disclaimer-icon { font-size: 18px; line-height: 1; }
 
   /* Botones */
-  .btn {
-    padding: 16px 24px; background: linear-gradient(135deg, var(--accent), var(--accent-2));
-    color: white; border: none; border-radius: 14px; font-size: 16px; font-weight: 600;
-    cursor: pointer; width: 100%; transition: transform 0.15s; font-family: inherit; margin-top: 10px;
-  }
+  .btn { padding: 16px 24px; background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: white; border: none; border-radius: 14px; font-size: 16px; font-weight: 600; cursor: pointer; width: 100%; transition: transform 0.15s; font-family: inherit; margin-top: 10px; box-shadow: 0 4px 12px rgba(99,102,241,0.2); }
   .btn:active { transform: scale(0.97); }
-  .btn.secondary { background: transparent; border: 1px solid var(--border); color: var(--text); margin-top: 0; }
-  .btn.share { background: #25D366; margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; }
-  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn.secondary { background: #ffffff; border: 1px solid var(--border); color: var(--text); margin-top: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+  .btn.share { background: #25D366; margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(37,211,102,0.2); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; box-shadow: none; }
 
   /* Quiz */
   .quiz-header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
   .progress-bar { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
   .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); transition: width 0.3s ease; border-radius: 3px; width: 0; }
-  .progress-text { font-size: 13px; color: var(--muted); font-weight: 500; min-width: 45px; text-align: right; }
-  .question-number { font-size: 13px; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
-  .question { font-size: 22px; font-weight: 600; line-height: 1.35; margin-bottom: 32px; min-height: 90px; }
+  .progress-text { font-size: 14px; color: var(--muted); font-weight: 600; min-width: 45px; text-align: right; }
+  .question-number { font-size: 13px; color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
+  .question { font-size: 22px; font-weight: 600; line-height: 1.35; margin-bottom: 32px; min-height: 90px; color: var(--text); }
   .options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
-  .option {
-    padding: 16px 18px; background: var(--card); border: 2px solid transparent; border-radius: 14px;
-    font-size: 15px; cursor: pointer; display: flex; align-items: center; gap: 14px;
-    transition: all 0.15s; font-family: inherit; color: var(--text); text-align: left; width: 100%;
-  }
+  .option { padding: 16px 18px; background: var(--card); border: 2px solid var(--border); border-radius: 14px; font-size: 15px; cursor: pointer; display: flex; align-items: center; gap: 14px; transition: all 0.15s; font-family: inherit; color: var(--text); text-align: left; width: 100%; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
   .option:active { transform: scale(0.98); }
-  .option.selected { background: rgba(99, 102, 241, 0.15); border-color: var(--accent); }
-  .option-circle {
-    width: 24px; height: 24px; border: 2px solid var(--border); border-radius: 50%; flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center; transition: all 0.15s;
-    font-size: 12px; font-weight: 700; color: var(--muted);
-  }
+  .option.selected { background: rgba(99, 102, 241, 0.05); border-color: var(--accent); }
+  .option-circle { width: 26px; height: 26px; border: 2px solid var(--border); border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.15s; font-size: 13px; font-weight: 700; color: var(--muted); }
   .option.selected .option-circle { background: var(--accent); border-color: var(--accent); color: white; }
   .nav-buttons { display: flex; gap: 10px; margin-top: auto; }
   .nav-buttons .btn { flex: 1; }
   
   /* Resultados */
-  .results-header { text-align: center; margin-bottom: 15px; }
+  .results-header { text-align: center; margin-bottom: 20px; }
   .results-header h1 { font-size: 26px; color: var(--accent); }
-  .results-header p { color: var(--muted); font-size: 14px; margin-top: 6px; }
-  
-  .trait-card { background: var(--card); border-radius: 16px; padding: 16px; border-left: 4px solid; margin-bottom: 12px; }
-  .trait-card.O { border-color: var(--O); } .trait-card.C { border-color: var(--C); }
-  .trait-card.E { border-color: var(--E); } .trait-card.A { border-color: var(--A); }
-  .trait-card.N { border-color: var(--N); }
+  .results-header p { color: var(--muted); font-size: 15px; margin-top: 6px; font-weight: 500; }
+  .trait-card { background: var(--card); border-radius: 16px; padding: 18px; border-left: 5px solid; margin-bottom: 14px; box-shadow: 0 4px 10px rgba(0,0,0,0.04); }
+  .trait-card.O { border-color: var(--O); } .trait-card.C { border-color: var(--C); } .trait-card.E { border-color: var(--E); } .trait-card.A { border-color: var(--A); } .trait-card.N { border-color: var(--N); }
   .trait-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
-  .trait-name { font-size: 16px; font-weight: 600; }
-  .trait-score { font-size: 18px; font-weight: 700; }
-  .trait-bar { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; margin-bottom: 10px; }
-  .trait-bar-fill { height: 100%; border-radius: 4px; width: 0; transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
-  .trait-card.O .trait-bar-fill { background: var(--O); } .trait-card.C .trait-bar-fill { background: var(--C); }
-  .trait-card.E .trait-bar-fill { background: var(--E); } .trait-card.A .trait-bar-fill { background: var(--A); }
-  .trait-card.N .trait-bar-fill { background: var(--N); }
-  .trait-desc { font-size: 13px; color: var(--text); line-height: 1.5; background: rgba(0,0,0,0.2); padding: 8px; border-radius: 8px; margin-top: 8px; }
+  .trait-name { font-size: 17px; font-weight: 700; color: var(--text); }
+  .trait-score { font-size: 20px; font-weight: 800; }
+  .trait-card.O .trait-score { color: var(--O); } .trait-card.C .trait-score { color: var(--C); } .trait-card.E .trait-score { color: var(--E); } .trait-card.A .trait-score { color: var(--A); } .trait-card.N .trait-score { color: var(--N); }
+  .trait-bar { height: 10px; background: var(--border); border-radius: 5px; overflow: hidden; margin-bottom: 12px; }
+  .trait-bar-fill { height: 100%; border-radius: 5px; width: 0; transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); }
+  .trait-card.O .trait-bar-fill { background: var(--O); } .trait-card.C .trait-bar-fill { background: var(--C); } .trait-card.E .trait-bar-fill { background: var(--E); } .trait-card.A .trait-bar-fill { background: var(--A); } .trait-card.N .trait-bar-fill { background: var(--N); }
+  .trait-desc { font-size: 14px; color: var(--text); line-height: 1.5; background: var(--bg); padding: 12px; border-radius: 10px; margin-top: 10px; }
   
   /* Historial */
-  .history-item { background: var(--card); padding: 16px; border-radius: 14px; margin-bottom: 10px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border); transition: border-color 0.2s; }
-  .history-item:active { background: var(--border); }
-  .history-info h4 { font-size: 16px; margin-bottom: 4px; }
-  .history-info p { font-size: 12px; color: var(--muted); }
-  .history-arrow { color: var(--accent); font-size: 20px; }
+  .history-item { background: var(--card); padding: 16px; border-radius: 14px; margin-bottom: 10px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border); transition: all 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+  .history-item:active { background: var(--bg); border-color: var(--accent); }
+  .history-info h4 { font-size: 16px; margin-bottom: 4px; color: var(--text); font-weight: 600; }
+  .history-info p { font-size: 13px; color: var(--muted); }
+  .history-arrow { color: var(--accent); font-size: 22px; font-weight: bold; }
 </style>
 </head>
 <body>
 <div class="container">
   
-  <!-- BIENVENIDA -->
   <section id="screen-welcome" class="screen active welcome">
     <div class="logo">5</div>
     <div>
@@ -133,25 +112,22 @@
       <input type="text" id="input-name" class="input-field" placeholder="Tu nombre" maxlength="25" autocomplete="off">
       <input type="number" id="input-age" class="input-field" placeholder="Tu edad" min="10" max="99" autocomplete="off">
     </div>
-
     <div class="disclaimer">
       <div class="disclaimer-icon">⚠️</div>
       <div><strong>Aviso importante:</strong> Este test es una herramienta de autoconocimiento y orientación. <strong>No sustituye</strong> una evaluación, diagnóstico o terapia con un profesional de la salud mental.</div>
     </div>
-
     <div class="info-box">
       <strong style="color: var(--text); display: block; margin-bottom: 4px;">Cómo funciona</strong>
-      40 preguntas · 7 minutos · Sin registro. Responde con honestidad.
+      50 preguntas · 8 minutos · Sin registro. Responde qué tan probable es cada afirmación.
     </div>
     <button class="btn" onclick="startQuiz()">Comenzar test</button>
     <button class="btn secondary" onclick="showHistory()" id="btn-history" style="display:none; margin-top: 5px;">Ver historial de tests</button>
   </section>
 
-  <!-- PREGUNTAS -->
   <section id="screen-quiz" class="screen">
     <div class="quiz-header">
       <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
-      <div class="progress-text" id="progress-text">1/40</div>
+      <div class="progress-text" id="progress-text">1/50</div>
     </div>
     <div class="question-number" id="q-number">Pregunta 1</div>
     <div class="question" id="q-text"></div>
@@ -162,126 +138,113 @@
     </div>
   </section>
 
-  <!-- RESULTADOS -->
   <section id="screen-results" class="screen results">
     <div class="results-header">
       <h1 id="result-title">Tu perfil</h1>
       <p id="result-subtitle"></p>
-      <p id="result-date" style="font-size: 12px; margin-top: 4px; opacity: 0.7;"></p>
+      <p id="result-date" style="font-size: 13px; margin-top: 6px; font-weight: 400; opacity: 0.8;"></p>
     </div>
     <div id="traits-container"></div>
-    
     <button class="btn share" onclick="shareResult()">📲 Compartir mi resultado</button>
     <button class="btn secondary" onclick="restart()" style="margin-top: 10px;">Hacer el test de nuevo</button>
   </section>
 
-  <!-- HISTORIAL -->
   <section id="screen-history" class="screen">
     <div class="results-header" style="text-align: left; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
-      <button class="btn secondary" style="width: auto; padding: 8px 12px; border-radius: 10px;" onclick="restart()">← Volver</button>
-      <h1 style="font-size: 20px; color: var(--text);">Historial</h1>
+      <button class="btn secondary" style="width: auto; padding: 10px 16px; border-radius: 12px;" onclick="restart()">← Volver</button>
+      <h1 style="font-size: 22px; color: var(--text);">Historial</h1>
     </div>
     <div id="history-list"></div>
-    <button class="btn secondary" onclick="clearHistory()" style="margin-top: auto; color: #ef4444; border-color: #ef4444;">Borrar historial</button>
+    <button class="btn secondary" onclick="clearHistory()" style="margin-top: auto; color: #ef4444; border-color: #fecaca; background: #fef2f2;">Borrar historial</button>
   </section>
 </div>
 
 <script>
-// 40 PREGUNTAS (8 por rasgo, 4 positivas y 4 negativas)
+// 50 PREGUNTAS (10 por rasgo) - LENGUAJE SIMPLIFICADO
 const QUESTIONS = [
-  // Apertura (O)
-  { q: "Tengo un vocabulario rico", t: "O", r: false },
-  { q: "Tengo dificultad entendiendo ideas abstractas", t: "O", r: true },
-  { q: "Tengo una imaginación vívida", t: "O", r: false },
-  { q: "No me interesan las ideas abstractas", t: "O", r: true },
-  { q: "Disfruto pensar en teorías y conceptos complejos", t: "O", r: false },
-  { q: "No me gusta el arte ni las actividades creativas", t: "O", r: true },
-  { q: "Soy muy creativo(a) e innovador(a)", t: "O", r: false },
-  { q: "Prefiero hacer las cosas de la forma tradicional", t: "O", r: true },
+  // Apertura
+  { q: "Me fascina explorar temas complejos y profundos que no tienen una utilidad práctica inmediata.", t: "O", r: false },
+  { q: "Prefiero mis rutinas de siempre antes que probar cosas nuevas.", t: "O", r: true },
+  { q: "Tengo una imaginación muy viva y disfruto creando historias o arte.", t: "O", r: false },
+  { q: "Me cuesta encontrarle sentido al arte moderno o a la poesía extraña.", t: "O", r: true },
+  { q: "Siento gran curiosidad por conocer otras culturas y formas de pensar.", t: "O", r: false },
+  { q: "Me aburro o incomodo cuando las conversaciones se vuelven demasiado teóricas.", t: "O", r: true },
+  { q: "Disfruto probar comidas nuevas, viajar a lugares desconocidos o vivir nuevas experiencias.", t: "O", r: false },
+  { q: "Prefiero que las cosas sean concretas y directas; no le veo el chiste a darle muchas vueltas a las ideas.", t: "O", r: true },
+  { q: "Suelo buscar soluciones creativas o poco comunes para los problemas del día a día.", t: "O", r: false },
+  { q: "Prefiero los métodos probados y seguros antes que arriesgarme con ideas innovadoras.", t: "O", r: true },
 
-  // Responsabilidad (C)
-  { q: "Siempre estoy preparado(a)", t: "C", r: false },
-  { q: "Dejo mis cosas por ahí", t: "C", r: true },
-  { q: "Presto atención a los detalles", t: "C", r: false },
-  { q: "Hago un desastre de las cosas", t: "C", r: true },
-  { q: "Sigo un horario y me ciño a él", t: "C", r: false },
-  { q: "Dejo las tareas para el último momento", t: "C", r: true },
-  { q: "Cumplo mis promesas y compromisos", t: "C", r: false },
-  { q: "A menudo olvido poner las cosas en su lugar", t: "C", r: true },
+  // Responsabilidad
+  { q: "Soy una persona sumamente organizada que planifica sus metas a corto y largo plazo.", t: "C", r: false },
+  { q: "Suelo dejar las cosas para el último minuto o procrastino con facilidad.", t: "C", r: true },
+  { q: "Soy muy detallista; me gusta que mi trabajo quede perfecto.", t: "C", r: false },
+  { q: "Tiendo a ser descuidado/a o desordenado/a con mis espacios y pertenencias.", t: "C", r: true },
+  { q: "Cumplo estrictamente con los plazos y compromisos que hago con los demás.", t: "C", r: false },
+  { q: "Me cuesta mantener la constancia en mis proyectos cuando pierdo la motivación inicial.", t: "C", r: true },
+  { q: "Puedo obligarme a trabajar duro incluso cuando no tengo ganas.", t: "C", r: false },
+  { q: "Suelo actuar de forma impulsiva sin medir las consecuencias a largo plazo.", t: "C", r: true },
+  { q: "Reviso dos veces las cosas para asegurarme de que no haya errores.", t: "C", r: false },
+  { q: "Los horarios estrictos y la estructura me llegan a agobiar.", t: "C", r: true },
 
-  // Extraversión (E)
-  { q: "Soy el alma de la fiesta", t: "E", r: false },
-  { q: "No hablo mucho", t: "E", r: true },
-  { q: "Hablo con muchas personas diferentes en las fiestas", t: "E", r: false },
-  { q: "Me mantengo en segundo plano", t: "E", r: true },
-  { q: "Tomo la iniciativa para iniciar conversaciones", t: "E", r: false },
-  { q: "Soy tímido(a) con los extraños", t: "E", r: true },
-  { q: "Tengo mucha energía y entusiasmo", t: "E", r: false },
-  { q: "Prefiero quedarme en casa un sábado por la noche", t: "E", r: true },
+  // Extraversión
+  { q: "Disfruto enormemente siendo el centro de atención o liderando grupos grandes.", t: "E", r: false },
+  { q: "Prefiero pasar mi tiempo libre a solas o con un círculo muy reducido de personas.", t: "E", r: true },
+  { q: "Me resulta muy fácil y natural iniciar una conversación con desconocidos.", t: "E", r: false },
+  { q: "Suelo sentirme física y mentalmente agotado/a después de reuniones sociales largas.", t: "E", r: true },
+  { q: "Me considero una persona enérgica, activa y entusiasta la mayor parte del tiempo.", t: "E", r: false },
+  { q: "Suelo mantenerme callado/a o en segundo plano en las fiestas.", t: "E", r: true },
+  { q: "Me entusiasma la idea de conocer gente nueva y hacer amigos con facilidad.", t: "E", r: false },
+  { q: "Prefiero las actividades tranquilas y solitarias antes que los ambientes ruidosos.", t: "E", r: true },
+  { q: "Expreso mis opiniones y emociones de forma abierta frente a los demás.", t: "E", r: false },
+  { q: "Me cuesta trabajo hablar en público o expresar lo que siento frente a grupos grandes.", t: "E", r: true },
 
-  // Amabilidad (A)
-  { q: "Simpatizo con los sentimientos de los demás", t: "A", r: false },
-  { q: "No me interesan los problemas de los demás", t: "A", r: true },
-  { q: "Tengo un corazón blando", t: "A", r: false },
-  { q: "Realmente no me interesan los demás", t: "A", r: true },
-  { q: "Confío en que la gente tiene buenas intenciones", t: "A", r: false },
-  { q: "Tiendo a menospreciar a los demás", t: "A", r: true },
-  { q: "Me preocupo por el bienestar de los demás", t: "A", r: false },
-  { q: "Insulto a la gente cuando estoy enojado(a)", t: "A", r: true },
+  // Amabilidad
+  { q: "Tiendo a ponerme genuinamente en el lugar de los demás y me afecta ver sufrir a otras personas.", t: "A", r: false },
+  { q: "Pienso que la mayoría actúa por interés propio, por lo que suelo ser desconfiado/a.", t: "A", r: true },
+  { q: "Me encanta colaborar y ayudar a los demás sin esperar nada a cambio.", t: "A", r: false },
+  { q: "Si alguien me ofende, considero que lo mejor es devolverle la jugada.", t: "A", r: true },
+  { q: "Suelo evitar los conflictos y prefiero buscar acuerdos pacíficos que beneficien a todos.", t: "A", r: false },
+  { q: "Me resulta fácil ser competitivo/a y no me importa pasar por encima de otros si es necesario para ganar.", t: "A", r: true },
+  { q: "Confío en la bondad natural de las personas hasta que se demuestre lo contrario.", t: "A", r: false },
+  { q: "Suelo ser crítico/a y estricto/a con los errores de los demás.", t: "A", r: true },
+  { q: "Disfruto haciendo favores y sintiendo que soy útil para mi comunidad o amigos.", t: "A", r: false },
+  { q: "Prefiero usar la lógica fría y ser duro/a, antes que ser sensible y dejarme llevar por las emociones.", t: "A", r: true },
 
-  // Neuroticismo (N)
-  { q: "Me estreso fácilmente", t: "N", r: false },
-  { q: "Estoy relajado(a) la mayor parte del tiempo", t: "N", r: true },
-  { q: "Me preocupo por las cosas", t: "N", r: false },
-  { q: "Rara vez me siento triste", t: "N", r: true },
-  { q: "Me pongo ansioso(a) con facilidad", t: "N", r: false },
-  { q: "Soy una persona muy calmada", t: "N", r: true },
-  { q: "Tengo cambios de humor frecuentes", t: "N", r: false },
-  { q: "Me mantengo estable y no me altero fácilmente", t: "N", r: true }
+  // Neuroticismo
+  { q: "Me recupero con rapidez de los golpes emocionales o fracasos.", t: "N", r: true },
+  { q: "Siento mucha presión o inseguridad cuando las miradas de los demás están puestas sobre mí.", t: "N", r: false },
+  { q: "Me considero una persona emocionalmente estable y difícil de alterar.", t: "N", r: true },
+  { q: "Las críticas negativas de los demás me afectan profundamente y me cuesta superarlas.", t: "N", r: false },
+  { q: "Sé desconectar mi mente de los problemas cotidianos para evitar saturarme de estrés.", t: "N", r: true },
+  { q: "Me estreso con facilidad por cosas pequeñas.", t: "N", r: false },
+  { q: "Casi nunca me siento ansioso/a o con los nervios de punta.", t: "N", r: true },
+  { q: "Me enojo o irrito con facilidad.", t: "N", r: false },
+  { q: "Me cuesta calmarme cuando algo me molesta o me saca de quicio.", t: "N", r: false },
+  { q: "Me mantengo tranquilo/a y con la mente clara cuando estoy bajo presión.", t: "N", r: true }
 ];
 
-// Mezclar las preguntas para que no salgan agrupadas por rasgo
+// Mezclar preguntas
 QUESTIONS.sort(() => Math.random() - 0.5);
 
 const TRAITS = {
-  O: { name: "Apertura" },
-  C: { name: "Responsabilidad" },
-  E: { name: "Extraversión" },
-  A: { name: "Amabilidad" },
-  N: { name: "Neuroticismo" }
+  O: { name: "Apertura" }, C: { name: "Responsabilidad" }, E: { name: "Extraversión" }, A: { name: "Amabilidad" }, N: { name: "Neuroticismo" }
 };
 
 const INTERPRETATIONS = {
-  O: {
-    high: "Eres una persona muy creativa, curiosa y con una imaginación vívida. Disfrutas explorar nuevas ideas, el arte y las experiencias no convencionales.",
-    med: "Tienes un equilibrio entre la curiosidad y la practicidad. Estás abierto a nuevas ideas, pero también valoras lo conocido.",
-    low: "Prefieres la rutina, lo concreto y lo tradicional. Te sientes más cómodo con lo que ya conoces y no buscas cambios innecesarios."
-  },
-  C: {
-    high: "Eres muy organizado, disciplinado y confiable. Sueles planificar a futuro y te esfuerzas por cumplir tus metas con precisión.",
-    med: "Tienes un nivel de organización equilibrado. Puedes ser metódico cuando lo necesitas, pero también te permites cierta flexibilidad.",
-    low: "Prefieres la espontaneidad sobre los planes estrictos. Puedes ser un poco desordenado y dejar las cosas para después, priorizando el momento presente."
-  },
-  E: {
-    high: "Eres muy sociable, energético y disfrutas ser el centro de atención. Recargas tu energía rodeado de gente y tomas la iniciativa fácilmente.",
-    med: "Tienes un equilibrio entre la vida social y la soledad. Disfrutas de las reuniones, pero también valoras tu tiempo a solas.",
-    low: "Eres reservado y prefieres la tranquilidad de estar solo o con muy pocas personas. La interacción social intensa tiende a agotarte."
-  },
-  A: {
-    high: "Eres muy empático, cooperativo y considerado. Te importa el bienestar de los demás y tiendes a confiar en la gente, evitando los conflictos.",
-    med: "Eres amable pero también asertivo. Sabes cuándo ayudar a los demás y cuándo poner tus propios límites.",
-    low: "Eres directo, franco y competitivo. Priorizas la lógica sobre los sentimientos ajenos y no temes expresar tu desacuerdo."
-  },
-  N: {
-    high: "Eres muy sensible y tiendes a experimentar emociones intensas como el estrés o la preocupación. Eres consciente de los riesgos, aunque a veces esto te cause ansiedad.",
-    med: "Tienes un nivel de estabilidad emocional moderado. Puedes estresarte en situaciones difíciles, pero generalmente sabes cómo recuperar la calma.",
-    low: "Eres muy estable y resiliente. Rara vez te sientes abrumado por el estrés o la tristeza; mantienes la calma incluso bajo presión."
-  }
+  O: { high: "Eres una persona muy creativa, curiosa y con una imaginación vívida. Disfrutas explorar nuevas ideas, el arte y las experiencias no convencionales.", med: "Tienes un equilibrio entre la curiosidad y la practicidad. Estás abierto a nuevas ideas, pero también valoras lo conocido.", low: "Prefieres la rutina, lo concreto y lo tradicional. Te sientes más cómodo con lo que ya conoces y no buscas cambios innecesarios." },
+  C: { high: "Eres muy organizado, disciplinado y confiable. Sueles planificar a futuro y te esfuerzas por cumplir tus metas con precisión.", med: "Tienes un nivel de organización equilibrado. Puedes ser metódico cuando lo necesitas, pero también te permites cierta flexibilidad.", low: "Prefieres la espontaneidad sobre los planes estrictos. Puedes ser un poco desordenado y dejar las cosas para después, priorizando el momento presente." },
+  E: { high: "Eres muy sociable, energético y disfrutas ser el centro de atención. Recargas tu energía rodeado de gente y tomas la iniciativa fácilmente.", med: "Tienes un equilibrio entre la vida social y la soledad. Disfrutas de las reuniones, pero también valoras tu tiempo a solas.", low: "Eres reservado y prefieres la tranquilidad de estar solo o con muy pocas personas. La interacción social intensa tiende a agotarte." },
+  A: { high: "Eres muy empático, cooperativo y considerado. Te importa el bienestar de los demás y tiendes a confiar en la gente, evitando los conflictos.", med: "Eres amable pero también asertivo. Sabes cuándo ayudar a los demás y cuándo poner tus propios límites.", low: "Eres directo, franco y competitivo. Priorizas la lógica sobre los sentimientos ajenos y no temes expresar tu desacuerdo." },
+  N: { high: "Eres muy sensible y tiendes a experimentar emociones intensas como el estrés o la preocupación. Eres consciente de los riesgos, aunque a veces esto te cause ansiedad.", med: "Tienes un nivel de estabilidad emocional moderado. Puedes estresarte en situaciones difíciles, pero generalmente sabes cómo recuperar la calma.", low: "Eres muy estable y resiliente. Rara vez te sientes abrumado por el estrés o la tristeza; mantienes la calma incluso bajo presión." }
 };
 
+// NUEVA ESCALA
 const SCALE = [
-  { val: 1, label: "Muy en desacuerdo" }, { val: 2, label: "En desacuerdo" },
-  { val: 3, label: "Neutral" }, { val: 4, label: "De acuerdo" }, { val: 5, label: "Muy de acuerdo" }
+  { val: 1, label: "Muy poco probable" }, 
+  { val: 2, label: "Poco probable" },
+  { val: 3, label: "Neutral" }, 
+  { val: 4, label: "Probable" }, 
+  { val: 5, label: "Muy probable" }
 ];
 
 let current = 0;
@@ -290,11 +253,7 @@ let userData = { name: "", age: "" };
 let currentResult = null;
 
 function $(id) { return document.getElementById(id); }
-function show(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  $(id).classList.add('active');
-  window.scrollTo(0, 0);
-}
+function show(id) { document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); $(id).classList.add('active'); window.scrollTo(0, 0); }
 
 function startQuiz() {
   const nameInput = $('input-name'), ageInput = $('input-age');
@@ -339,9 +298,7 @@ function renderQuestion() {
 
 function selectOption(val) {
   answers[current] = val;
-  document.querySelectorAll('.option').forEach((el, i) => {
-    el.classList.toggle('selected', SCALE[i].val === val);
-  });
+  document.querySelectorAll('.option').forEach((el, i) => { el.classList.toggle('selected', SCALE[i].val === val); });
   $('btn-next').disabled = false;
 }
 
@@ -357,15 +314,17 @@ function finishQuiz() {
   let counts = { O: 0, C: 0, E: 0, A: 0, N: 0 };
   
   QUESTIONS.forEach((q, i) => {
+    // Si es reversa, restamos el valor a 6 (ej. si contestó 5, se convierte en 1)
     const v = q.r ? (6 - answers[i]) : answers[i];
     scores[q.t] += v;
     counts[q.t]++;
   });
 
-  // Cálculo ajustado para 8 preguntas por rasgo (rango de 8 a 40)
+  // Cálculo ajustado para exactamente 10 preguntas por rasgo.
+  // El valor mínimo es 10 (10*1) y el máximo es 50 (10*5).
+  // Le restamos 10 para que vaya de 0 a 40, y lo multiplicamos por 2.5 para que llegue a 100.
   Object.keys(scores).forEach(k => { 
-    // Fórmula de normalización porcentual
-    scores[k] = Math.round(((scores[k] - counts[k]) / (counts[k] * 4)) * 100); 
+    scores[k] = Math.round(((scores[k] - 10) / 40) * 100); 
   });
   
   currentResult = { scores, date: new Date().toISOString(), name: userData.name, age: userData.age };
@@ -398,9 +357,7 @@ function renderResults(result) {
   });
   
   show('screen-results');
-  setTimeout(() => {
-    document.querySelectorAll('.trait-bar-fill').forEach(bar => { bar.style.width = bar.dataset.score + '%'; });
-  }, 50);
+  setTimeout(() => { document.querySelectorAll('.trait-bar-fill').forEach(bar => { bar.style.width = bar.dataset.score + '%'; }); }, 100);
 }
 
 function shareResult() {
@@ -412,15 +369,10 @@ function shareResult() {
   if (navigator.share) {
     navigator.share({ title: 'Mi perfil Big 5', text: text, url: window.location.href }).catch(console.error);
   } else {
-    navigator.clipboard.writeText(text).then(() => {
-      alert("¡Texto copiado! Pégalo en WhatsApp o donde quieras.");
-    }).catch(() => {
-      alert("Copia manualmente este texto:\n\n" + text);
-    });
+    navigator.clipboard.writeText(text).then(() => { alert("¡Texto copiado! Pégalo en WhatsApp o donde quieras."); }).catch(() => { alert("Copia manualmente este texto:\n\n" + text); });
   }
 }
 
-// --- HISTORIAL ---
 function saveToHistory(result) {
   try {
     let hist = JSON.parse(localStorage.getItem('big5_history') || '[]');
@@ -443,13 +395,7 @@ function showHistory() {
         div.className = 'history-item';
         const d = new Date(item.date);
         const dateStr = d.toLocaleDateString('es-MX', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
-        div.innerHTML = `
-          <div class="history-info">
-            <h4>${item.name || 'Anónimo'} ${item.age ? '('+item.age+' años)' : ''}</h4>
-            <p>${dateStr}</p>
-          </div>
-          <div class="history-arrow">›</div>
-        `;
+        div.innerHTML = `<div class="history-info"><h4>${item.name || 'Anónimo'} ${item.age ? '('+item.age+' años)' : ''}</h4><p>${dateStr}</p></div><div class="history-arrow">›</div>`;
         div.onclick = () => renderResults(item);
         list.appendChild(div);
       });
@@ -479,6 +425,7 @@ function checkHistory() {
   } catch(e) {}
 }
 
+// Registrar Service Worker
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
 checkHistory();
 </script>
